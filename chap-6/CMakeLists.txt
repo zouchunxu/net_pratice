@@ -1,0 +1,5 @@
+add_executable(chap6_udpclient updclient.cpp)
+target_link_libraries(chap6_udpclient yolanda)
+
+add_executable(chap6_udpserver updserver.cpp)
+target_link_libraries(chap6_udpserver yolanda)
