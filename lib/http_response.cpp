@@ -4,11 +4,11 @@
 #define INIT_RESPONSE_HEADER_SIZE 128
 
 struct http_response *http_response_new() {
-    struct http_response *httpResponse = malloc(sizeof(struct http_response));
+    struct http_response *httpResponse = (struct http_response *)malloc(sizeof(struct http_response));
     httpResponse->body = NULL;
     httpResponse->statusCode = Unknown;
     httpResponse->statusMessage = NULL;
-    httpResponse->response_headers = malloc(sizeof(struct response_header) * INIT_RESPONSE_HEADER_SIZE);
+    httpResponse->response_headers = (struct response_header *)malloc(sizeof(struct response_header) * INIT_RESPONSE_HEADER_SIZE);
     httpResponse->response_headers_number = 0;
     httpResponse->keep_connected = 0;
     return httpResponse;
@@ -38,6 +38,7 @@ void http_response_encode_buffer(struct http_response *httpResponse, struct buff
         }
     }
 
-    buffer_append_string(output, "\r\n");
+    char  c[] = "\r\n";
+    buffer_append_string(output,c );
     buffer_append_string(output, httpResponse->body);
 }

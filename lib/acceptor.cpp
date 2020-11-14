@@ -2,7 +2,7 @@
 #include "acceptor.h"
 
 struct acceptor *acceptor_init(int port) {
-    struct acceptor *acceptor1 = malloc(sizeof(struct acceptor));
+    struct acceptor *acceptor1 = (struct acceptor *)malloc(sizeof(struct acceptor));
     acceptor1->listen_port = port;
     acceptor1->listen_fd = socket(AF_INET, SOCK_STREAM, 0);
 

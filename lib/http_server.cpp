@@ -13,25 +13,25 @@ int http_onConnectionCompleted(struct tcp_connection *tcpConnection) {
 int process_status_line(char *start, char *end, struct http_request *httpRequest) {
     int size = end - start;
     //method
-    char *space = memmem(start, end - start, " ", 1);
+    char *space = (char *)memmem(start, end - start, " ", 1);
     assert(space != NULL);
     int method_size = space - start;
-    httpRequest->method = malloc(method_size + 1);
+    httpRequest->method = (char *)malloc(method_size + 1);
     strncpy(httpRequest->method, start, space - start);
     httpRequest->method[method_size + 1] = '\0';
 
     //url
     start = space + 1;
-    space = memmem(start, end - start, " ", 1);
+    space = (char *)memmem(start, end - start, " ", 1);
     assert(space != NULL);
     int url_size = space - start;
-    httpRequest->url = malloc(url_size + 1);
+    httpRequest->url = (char *)malloc(url_size + 1);
     strncpy(httpRequest->url, start, space - start);
     httpRequest->url[url_size + 1] = '\0';
 
     //version
     start = space + 1;
-    httpRequest->version = malloc(end - start + 1);
+    httpRequest->version = (char *)malloc(end - start + 1);
     strncpy(httpRequest->version, start, end - start);
     httpRequest->version[end - start + 1] = '\0';
     assert(space != NULL);
@@ -59,12 +59,12 @@ int parse_http_request(struct buffer *input, struct http_request *httpRequest) {
                  */
                 char *start = input->data + input->readIndex;
                 int request_line_size = crlf - start;
-                char *colon = memmem(start, request_line_size, ": ", 2);
+                char *colon = (char *)memmem(start, request_line_size, ": ", 2);
                 if (colon != NULL) {
-                    char *key = malloc(colon - start + 1);
+                    char *key = (char *)malloc(colon - start + 1);
                     strncpy(key, start, colon - start);
                     key[colon - start] = '\0';
-                    char *value = malloc(crlf - colon - 2 + 1);
+                    char *value = (char *)malloc(crlf - colon - 2 + 1);
                     strncpy(value, colon + 2, crlf - colon - 2);
                     value[crlf - colon - 2] = '\0';
 
@@ -127,7 +127,7 @@ int http_onWriteCompleted(struct tcp_connection *tcpConnection) {
 int http_onConnectionClosed(struct tcp_connection *tcpConnection) {
     yolanda_msgx("connection closed");
     if (tcpConnection->request != NULL) {
-        http_request_clear(tcpConnection->request);
+        http_request_clear((struct http_request *)tcpConnection->request);
         tcpConnection->request = NULL;
     }
     return 0;
@@ -137,7 +137,7 @@ int http_onConnectionClosed(struct tcp_connection *tcpConnection) {
 struct http_server *http_server_new(struct event_loop *eventLoop, int port,
                                     request_callback requestCallback,
                                     int threadNum) {
-    struct http_server *httpServer = malloc(sizeof(struct http_server));
+    struct http_server *httpServer = (struct http_server *)malloc(sizeof(struct http_server));
     httpServer->requestCallback = requestCallback;
     //初始化acceptor
     struct acceptor *acceptor = acceptor_init(SERV_PORT);

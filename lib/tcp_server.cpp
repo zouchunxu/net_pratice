@@ -113,7 +113,7 @@ tcp_server_init(struct event_loop *eventLoop, struct acceptor *acceptor,
                 write_completed_call_back writeCompletedCallBack,
                 connection_closed_call_back connectionClosedCallBack,
                 int threadNum) {
-    struct TCPserver *tcpServer = malloc(sizeof(struct TCPserver));
+    struct TCPserver *tcpServer = (struct TCPserver *)malloc(sizeof(struct TCPserver));
     tcpServer->eventLoop = eventLoop;
     tcpServer->acceptor = acceptor;
     tcpServer->connectionCompletedCallBack = connectionCompletedCallBack;

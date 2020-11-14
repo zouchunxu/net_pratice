@@ -10,12 +10,12 @@ const char *CLOSE = "close";
 
 //初始化一个request对象
 struct http_request *http_request_new() {
-    struct http_request *httpRequest = malloc(sizeof(struct http_request));
+    struct http_request *httpRequest = (struct http_request *)malloc(sizeof(struct http_request));
     httpRequest->method = NULL;
     httpRequest->current_state = REQUEST_STATUS;
     httpRequest->version = NULL;
     httpRequest->url = NULL;
-    httpRequest->request_headers = malloc(sizeof(struct http_request) * INIT_REQUEST_HEADER_SIZE);
+    httpRequest->request_headers = (struct request_header *)malloc(sizeof(struct http_request) * INIT_REQUEST_HEADER_SIZE);
     httpRequest->request_headers_number = 0;
     return httpRequest;
 }

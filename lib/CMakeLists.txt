@@ -1,45 +1,45 @@
 if (EPOLL_EXISTS)
     set(yolanda_lib
-            log.c
-            sock_ntop.c
+            log.cpp
+            sock_ntop.cpp
             read.c
-            tcp_server.c
-            tcp_client.c
-            event_loop.c
-            channel.c
-            acceptor.c
-            channel_map.c
-            poll_dispatcher.c
-            thread_pool.c
-            event_loop_thread.c
-            utils.c
-            epoll_dispatcher.c
-            buffer.c
-            tcp_connection.c
-            http_server.c
-            http_request.c
-            http_response.c
+            tcp_server.cpp
+            tcp_client.cpp
+            event_loop.cpp
+            channel.cpp
+            acceptor.cpp
+            channel_map.cpp
+            poll_dispatcher.cpp
+            thread_pool.cpp
+            event_loop_thread.cpp
+            utils.cpp
+            epoll_dispatcher.cpp
+            buffer.cpp
+            tcp_connection.cpp
+            http_server.cpp
+            http_request.cpp
+            http_response.cpp
             )
 else ()
     set(yolanda_lib
-            log.c
-            sock_ntop.c
+            log.cpp
+            sock_ntop.cpp
             read.c
-            tcp_server.c
-            tcp_client.c
-            event_loop.c
-            channel.c
-            acceptor.c
-            channel_map.c
-            poll_dispatcher.c
-            thread_pool.c
-            event_loop_thread.c
-            utils.c
-            buffer.c
-            tcp_connection.c
-            http_server.c
-            http_request.c
-            http_response.c
+            tcp_server.cpp
+            tcp_client.cpp
+            event_loop.cpp
+            channel.cpp
+            acceptor.cpp
+            channel_map.cpp
+            poll_dispatcher.cpp
+            thread_pool.cpp
+            event_loop_thread.cpp
+            utils.cpp
+            buffer.cpp
+            tcp_connection.cpp
+            http_server.cpp
+            http_request.cpp
+            http_response.cpp
             )
 endif ()
 

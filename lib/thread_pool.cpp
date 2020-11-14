@@ -4,7 +4,7 @@
 
 struct thread_pool *thread_pool_new(struct event_loop *mainLoop, int threadNumber) {
 
-    struct thread_pool *threadPool = malloc(sizeof(struct thread_pool));
+    struct thread_pool *threadPool = (struct thread_pool *)malloc(sizeof(struct thread_pool));
     threadPool->mainLoop = mainLoop;
     threadPool->position = 0;
     threadPool->thread_number = threadNumber;
@@ -25,7 +25,7 @@ void thread_pool_start(struct thread_pool *threadPool) {
         return;
     }
 
-    threadPool->eventLoopThreads = malloc(threadPool->thread_number * sizeof(struct event_loop_thread));
+    threadPool->eventLoopThreads = (struct event_loop_thread *)malloc(threadPool->thread_number * sizeof(struct event_loop_thread));
     for (int i = 0; i < threadPool->thread_number; ++i) {
         event_loop_thread_init(&threadPool->eventLoopThreads[i], i);
         event_loop_thread_start(&threadPool->eventLoopThreads[i]);

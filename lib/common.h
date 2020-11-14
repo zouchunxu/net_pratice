@@ -5,6 +5,7 @@
 #ifndef YOLANDA_COMMON_H
 #define YOLANDA_COMMON_H
 
+
 #include "config.h"
 
 #include "log.h"

@@ -60,7 +60,7 @@ tcp_connection_new(int connected_fd, struct event_loop *eventLoop,
                    connection_completed_call_back connectionCompletedCallBack,
                    connection_closed_call_back connectionClosedCallBack,
                    message_call_back messageCallBack, write_completed_call_back writeCompletedCallBack) {
-    struct tcp_connection *tcpConnection = malloc(sizeof(struct tcp_connection));
+    struct tcp_connection *tcpConnection = (struct tcp_connection *)malloc(sizeof(struct tcp_connection));
     tcpConnection->writeCompletedCallBack = writeCompletedCallBack;
     tcpConnection->messageCallBack = messageCallBack;
     tcpConnection->connectionCompletedCallBack = connectionCompletedCallBack;
@@ -70,7 +70,7 @@ tcp_connection_new(int connected_fd, struct event_loop *eventLoop,
     tcpConnection->output_buffer = buffer_new();
 
 
-    char *buf = malloc(16);
+    char *buf = (char *)malloc(16);
     sprintf(buf, "connection-%d\0", connected_fd);
     tcpConnection->name = buf;
 
@@ -113,7 +113,7 @@ int tcp_connection_send_data(struct tcp_connection *tcpConnection, void *data, i
 
     if (!fault && nleft > 0) {
         //拷贝到Buffer中，Buffer的数据由框架接管
-        buffer_append(output_buffer, data + nwrited, nleft);
+        buffer_append(output_buffer, (char *)data + nwrited, nleft);
         if (!channel_write_event_is_enabled(channel)) {
             channel_write_event_enable(channel);
         }

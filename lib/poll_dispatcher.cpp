@@ -39,10 +39,10 @@ const struct event_dispatcher poll_dispatcher = {
 };
 
 void *poll_init(struct event_loop *eventLoop) {
-    struct poll_dispatcher_data *pollDispatcherData = malloc(sizeof(struct poll_dispatcher_data));
+    struct poll_dispatcher_data *pollDispatcherData = (struct poll_dispatcher_data *)malloc(sizeof(struct poll_dispatcher_data));
 
     //初始化pollfd数组，这个数组的第一个元素是listen_fd，其余的用来记录将要连接的connect_fd
-    pollDispatcherData->event_set = malloc(sizeof(struct pollfd) * INIT_POLL_SIZE);
+    pollDispatcherData->event_set = (struct pollfd *)malloc(sizeof(struct pollfd) * INIT_POLL_SIZE);
     // 用-1表示这个数组位置还没有被占用
     int i;
     for (i = 0; i < INIT_POLL_SIZE; i++)

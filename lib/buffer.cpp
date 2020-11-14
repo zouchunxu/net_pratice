@@ -4,11 +4,11 @@
 const char *CRLF = "\r\n";
 
 struct buffer *buffer_new() {
-    struct buffer *buffer1 = malloc(sizeof(struct buffer));
+    struct buffer *buffer1 = (struct buffer *)malloc(sizeof(struct buffer));
     if (!buffer1)
         return NULL;
 
-    buffer1->data = malloc(INIT_BUFFER_SIZE);
+    buffer1->data = (char *)malloc(INIT_BUFFER_SIZE);
     buffer1->total_size = INIT_BUFFER_SIZE;
     buffer1->readIndex = 0;
     buffer1->writeIndex = 0;
@@ -51,7 +51,7 @@ void make_room(struct buffer *buffer, int size) {
         if (tmp == NULL) {
             return;
         }
-        buffer->data = tmp;
+        buffer->data = (char *)tmp;
         buffer->total_size += size;
     }
 }
@@ -106,6 +106,6 @@ char buffer_read_char(struct buffer *buffer) {
 }
 
 char *buffer_find_CRLF(struct buffer *buffer) {
-    char *crlf = memmem(buffer->data + buffer->readIndex, buffer_readable_size(buffer), CRLF, 2);
+    char *crlf = (char *)memmem(buffer->data + buffer->readIndex, buffer_readable_size(buffer), CRLF, 2);
     return crlf;
 }

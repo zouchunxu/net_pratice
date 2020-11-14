@@ -38,7 +38,7 @@ int event_loop_handle_pending_channel(struct event_loop *eventLoop) {
 
 void event_loop_channel_buffer_nolock(struct event_loop *eventLoop, int fd, struct channel *channel1, int type) {
     //add channel into the pending list
-    struct channel_element *channelElement = malloc(sizeof(struct channel_element));
+    struct channel_element *channelElement = (struct channel_element *)malloc(sizeof(struct channel_element));
     channelElement->channel = channel1;
     channelElement->type = type;
     channelElement->next = NULL;
@@ -97,7 +97,7 @@ int event_loop_handle_pending_add(struct event_loop *eventLoop, int fd, struct c
     if ((map)->entries[fd] == NULL) {
         map->entries[fd] = channel;
         //add channel
-        struct event_dispatcher *eventDispatcher = eventLoop->eventDispatcher;
+        struct event_dispatcher *eventDispatcher = (struct event_dispatcher *)eventLoop->eventDispatcher;
         eventDispatcher->add(eventLoop, channel);
         return 1;
     }
@@ -116,10 +116,10 @@ int event_loop_handle_pending_remove(struct event_loop *eventLoop, int fd, struc
     if (fd >= map->nentries)
         return (-1);
 
-    struct channel *channel2 = map->entries[fd];
+    struct channel *channel2 = (struct channel *)map->entries[fd];
 
     //update dispatcher(multi-thread)here
-    struct event_dispatcher *eventDispatcher = eventLoop->eventDispatcher;
+    struct event_dispatcher *eventDispatcher = (struct event_dispatcher *)eventLoop->eventDispatcher;
 
     int retval = 0;
     if (eventDispatcher->del(eventLoop, channel2) == -1) {
@@ -145,7 +145,7 @@ int event_loop_handle_pending_update(struct event_loop *eventLoop, int fd, struc
     }
 
     //update channel
-    struct event_dispatcher *eventDispatcher = eventLoop->eventDispatcher;
+    struct event_dispatcher *eventDispatcher = (struct event_dispatcher *)eventLoop->eventDispatcher;
     eventDispatcher->update(eventLoop, channel);
 }
 
@@ -158,7 +158,7 @@ int channel_event_activate(struct event_loop *eventLoop, int fd, int revents) {
 
     if (fd >= map->nentries)return (-1);
 
-    struct channel *channel = map->entries[fd];
+    struct channel *channel = (struct channel *)map->entries[fd];
     assert(fd == channel->fd);
 
     if (revents & (EVENT_READ)) {
@@ -195,7 +195,7 @@ struct event_loop *event_loop_init() {
 }
 
 struct event_loop *event_loop_init_with_name(char *thread_name) {
-    struct event_loop *eventLoop = malloc(sizeof(struct event_loop));
+    struct event_loop *eventLoop = (struct event_loop *)malloc(sizeof(struct event_loop));
     pthread_mutex_init(&eventLoop->mutex, NULL);
     pthread_cond_init(&eventLoop->cond, NULL);
 
@@ -206,7 +206,7 @@ struct event_loop *event_loop_init_with_name(char *thread_name) {
     }
 
     eventLoop->quit = 0;
-    eventLoop->channelMap = malloc(sizeof(struct channel_map));
+    eventLoop->channelMap = (struct channel_map *)malloc(sizeof(struct channel_map));
     map_init(eventLoop->channelMap);
 
 #ifdef EPOLL_ENABLE
@@ -241,7 +241,7 @@ struct event_loop *event_loop_init_with_name(char *thread_name) {
 int event_loop_run(struct event_loop *eventLoop) {
     assert(eventLoop != NULL);
 
-    struct event_dispatcher *dispatcher = eventLoop->eventDispatcher;
+    struct event_dispatcher *dispatcher = (struct event_dispatcher *)eventLoop->eventDispatcher;
 
     if (eventLoop->owner_thread_id != pthread_self()) {
         exit(1);
