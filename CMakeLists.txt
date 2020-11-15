@@ -29,6 +29,7 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
 add_subdirectory(lib/)
 add_subdirectory(chap-5/)
 add_subdirectory(chap-6/)
+add_subdirectory(chap-11/)
 
 add_executable(test test.cpp)
 target_link_libraries(test yolanda)

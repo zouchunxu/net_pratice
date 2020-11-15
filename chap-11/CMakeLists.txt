@@ -1,0 +1,5 @@
+add_executable(chap11_client graceclient.cpp)
+target_link_libraries(chap11_client yolanda)
+
+add_executable(chap11_server graceserver.cpp)
+target_link_libraries(chap11_server yolanda)
